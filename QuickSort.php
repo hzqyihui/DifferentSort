@@ -36,7 +36,7 @@ function quickSort($array = [])
         return $array;
     }
     //快排需要先设置一个基准值，这个基准值用于比较大小，这里我默认用的是第一个值，实际上可以选择中间的一个值，待考察
-    $standard  = $array[0];
+    $standard = $array[0];
 //    $standard  = mt_rand(0, count($array)-1); //有错
 //    dd($standard);
     $leftArray = $rightArray = [];
@@ -49,9 +49,9 @@ function quickSort($array = [])
         }
     }
     //那么接下来就是使用递归的方式把左右数组给传入函数，最后会在递归的过程中从栈的顶层得到单个值的数组，利用array_merge组合左，基准，右数组，即可得到排序好的数组了
-    $leftArray  = quickSort($leftArray);
+    $leftArray = quickSort($leftArray);
     $rightArray = quickSort($rightArray);
-    $result     = array_merge($leftArray, [$standard], $rightArray);
+    $result = array_merge($leftArray, [$standard], $rightArray);
     return $result;
 }
 
@@ -75,8 +75,8 @@ function quickSortImprove(&$array, $left, $right)
 function Netherlands(&$array, $left, $right)
 {
     //设定两个边界，分别是Less 和 More， less是 0下标的前一个边界， more 是最后一个下标，和原本的荷兰国旗问题有点区分。
-    $less    = $left - 1;
-    $more    = $right;
+    $less = $left - 1;
+    $more = $right;
     $current = $left;
     while ($current < $more) {
         if ($array[$current] < $array[$more]) {
@@ -95,4 +95,30 @@ function Netherlands(&$array, $left, $right)
     swapArray($array, $more, $right);
     //返回中间值是相等的下标， 由于执行了上一步操作了，所以这里右边范围是More，是没问题的。
     return [$less + 1, $more];
+}
+
+function QuickSort2(&$arr, $low, $high)
+{
+    if ($low < $high) {
+        $middle = getMiddle($arr, $low, $high);
+        QuickSort2($arr, $low, $middle - 1);
+        QuickSort2($arr, $middle + 1, $high);
+    }
+}
+
+function getMiddle(&$arr, $low, $high)
+{
+    $temp = $arr[$low];
+    while ($low < $high) {
+        while ($low < $high && $temp <= $arr[$high]) {
+            $high--;
+        }
+        $arr[$low] = $arr[$high];
+        while ($low < $high && $temp >= $arr[$low]) {
+            $low++;
+        }
+        $arr[$high] = $arr[$low];
+    }
+    $arr[$low] = $temp;
+    return $low;
 }
